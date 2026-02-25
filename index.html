@@ -1,170 +1,251 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Paneer AR Experience</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AR Menu Experience</title>
 
-  <!-- model-viewer -->
-  <script type="module"
-    src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js">
-  </script>
+<script type="module"
+src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js">
+</script>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #141e30, #243b55);
-      color: white;
-      overflow: hidden;
-    }
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-    .overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      padding: 20px;
-      text-align: center;
-      z-index: 10;
-      pointer-events: none;
-    }
+<style>
 
-    .overlay h1 {
-      margin: 10px 0 5px;
-      font-size: 26px;
-      letter-spacing: 1px;
-    }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
 
-    .overlay p {
-      font-size: 14px;
-      opacity: 0.8;
-    }
+body {
+  background: radial-gradient(circle at top, #1b2735, #090a0f);
+  color: white;
+  overflow-x: hidden;
+}
 
-    .info-card {
-      position: absolute;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 85%;
-      max-width: 400px;
-      padding: 16px;
-      border-radius: 16px;
-      backdrop-filter: blur(14px);
-      background: rgba(255,255,255,0.1);
-      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-      text-align: center;
-      z-index: 10;
-      pointer-events: none;
-    }
+/* NAVBAR */
+nav {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 8%;
+  align-items: center;
+}
 
-    model-viewer {
-      width: 100%;
-      height: 100vh;
-      background: transparent;
-      --ar-button-color: #000;
-      --ar-button-background-color: #fff;
-    }
+nav h2 {
+  font-weight: 700;
+  letter-spacing: 1px;
+}
 
-    button[slot="ar-button"] {
-      font-weight: 600;
-      border-radius: 12px;
-      padding: 14px 24px;
-      font-size: 16px;
-      border: none;
-      box-shadow: 0 6px 14px rgba(0,0,0,0.3);
-      cursor: pointer;
-    }
+nav button {
+  background: linear-gradient(45deg,#ffb347,#ffcc33);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 30px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
 
-    .loading {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 16px;
-      opacity: 0.8;
-    }
-  </style>
+nav button:hover {
+  transform: scale(1.05);
+}
+
+/* HERO SECTION */
+.hero {
+  text-align: center;
+  padding: 80px 20px 40px;
+}
+
+.hero h1 {
+  font-size: 42px;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.hero p {
+  opacity: 0.8;
+  margin-bottom: 40px;
+}
+
+/* DISH CARDS */
+.cards {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 30px;
+  padding: 20px 5%;
+}
+
+.card {
+  background: rgba(255,255,255,0.05);
+  border-radius: 20px;
+  padding: 20px;
+  width: 300px;
+  backdrop-filter: blur(15px);
+  box-shadow: 0 0 25px rgba(255, 170, 0, 0.2);
+  transition: 0.3s;
+  text-align: center;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 0 40px rgba(255, 170, 0, 0.4);
+}
+
+.card img {
+  width: 100%;
+  border-radius: 15px;
+  margin-bottom: 15px;
+}
+
+.card h3 {
+  margin-bottom: 10px;
+}
+
+.card button {
+  background: linear-gradient(45deg,#ffb347,#ffcc33);
+  border: none;
+  padding: 10px 18px;
+  border-radius: 25px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.card button:hover {
+  transform: scale(1.1);
+}
+
+/* AR SECTION */
+.ar-section {
+  margin-top: 60px;
+  text-align: center;
+}
+
+model-viewer {
+  width: 100%;
+  height: 80vh;
+  background: transparent;
+}
+
+button[slot="ar-button"] {
+  background: linear-gradient(45deg,#ffb347,#ffcc33);
+  border: none;
+  border-radius: 30px;
+  padding: 14px 24px;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+footer {
+  text-align: center;
+  padding: 30px;
+  opacity: 0.6;
+  font-size: 14px;
+}
+
+</style>
 </head>
 
 <body>
 
-  <div class="overlay">
-    <h1>Paneer Special</h1>
-    <p>Open in Google Chrome for best AR experience</p>
+<nav>
+  <h2>🍽 AR Menu</h2>
+  <button onclick="scrollToAR()">Explore in AR</button>
+</nav>
+
+<section class="hero">
+  <h1>Experience Delicious Dishes in Augmented Reality</h1>
+  <p>Tap a dish below and view it live in your space.</p>
+</section>
+
+<section class="cards">
+
+  <div class="card">
+    <img src="https://images.unsplash.com/photo-1604908176997-4316b27c92c3" />
+    <h3>Paneer Special</h3>
+    <button onclick="loadDish('paneer2')">View in AR</button>
   </div>
 
-  <div class="info-card">
-    Point your camera at a flat surface and tap "View in AR"
+  <div class="card">
+    <img src="https://images.unsplash.com/photo-1631452180519-c014fe946bc7" />
+    <h3>Creamy Delight</h3>
+    <button onclick="loadDish('cream')">View in AR</button>
   </div>
 
-  <div id="loadingText" class="loading">
-    Loading 3D Model...
+  <div class="card">
+    <img src="https://images.unsplash.com/photo-1604908554164-9f65e1c0d3ef" />
+    <h3>Special Dish 2</h3>
+    <button onclick="loadDish('dish1')">View in AR</button>
   </div>
 
-  <model-viewer
-    id="arModel"
-    src = "paneer2.glb"
-    ios-src="paneer2.usdz"
-    ar
-    ar-modes="scene-viewer webxr quick-look"
-    ar-placement="floor"
-    ar-scale="auto"
-    camera-controls
-    shadow-intensity="1"
-    exposure="1"
-    environment-image="neutral"
-    loading="eager"
-    reveal="interaction">
+</section>
 
-    <button slot="ar-button">
-      View in AR
-    </button>
+<section class="ar-section" id="arViewer">
 
-  </model-viewer>
+<model-viewer
+  id="arModel"
+  src="paneer2.glb"
+  ios-src="paneer2.usdz"
+  ar
+  ar-modes="scene-viewer webxr quick-look"
+  ar-placement="floor"
+  camera-controls
+  shadow-intensity="1"
+  exposure="1"
+  environment-image="neutral">
 
-  <script>
+  <button slot="ar-button">View in AR</button>
+
+</model-viewer>
+
+</section>
+
+<footer>
+  Best viewed in Google Chrome | Powered by WebAR
+</footer>
+
+<script>
+
 const model = document.getElementById('arModel');
-const loadingText = document.getElementById('loadingText');
 
 const dishes = {
   paneer2: {
     glb: "paneer2.glb",
-    usdz: "paneer2.usdz",
-    title: "Paneer Special"
-  },
-  dish1: {
-    glb: "1.glb",
-    usdz: "1.usdz",
-    title: "Special Dish 2"
+    usdz: "paneer2.usdz"
   },
   cream: {
     glb: "cream.glb",
-    usdz: "cream.usdz",
-    title: "Creamy Delight"
+    usdz: "cream.usdz"
+  },
+  dish1: {
+    glb: "1.glb",
+    usdz: "1.usdz"
   }
 };
 
-function loadDishFromURL() {
-  const params = new URLSearchParams(window.location.search);
-  const dishKey = params.get("dish");
-
-  if (dishes[dishKey]) {
-    model.src = dishes[dishKey].glb;
-    model.setAttribute("ios-src", dishes[dishKey].usdz);
-    document.querySelector(".overlay h1").innerText = dishes[dishKey].title;
-  } else {
-    // Default
-    model.src = dishes.paneer2.glb;
-    model.setAttribute("ios-src", dishes.paneer2.usdz);
-  }
+function loadDish(name) {
+  model.src = dishes[name].glb;
+  model.setAttribute("ios-src", dishes[name].usdz);
+  window.history.pushState({}, "", "?dish=" + name);
+  scrollToAR();
 }
 
-model.addEventListener('load', () => {
-  loadingText.style.display = "none";
-});
+function scrollToAR() {
+  document.getElementById("arViewer").scrollIntoView({ behavior: "smooth" });
+}
 
-loadDishFromURL();
+// Auto-load from URL parameter
+const params = new URLSearchParams(window.location.search);
+const dishKey = params.get("dish");
+if (dishes[dishKey]) {
+  loadDish(dishKey);
+}
+
 </script>
 
 </body>
